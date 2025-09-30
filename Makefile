@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Werror
+CFLAGS = -Wall -Werror -O2
 # LDFLAGS = -lm
 
 .PHONY: all
