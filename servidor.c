@@ -34,8 +34,12 @@ void error(int connfd) {
 int main(int argc, char **argv) {
 
     int port = 0;
+    int delay = 0;
     if (argc >= 2) {
         port = atoi(argv[1]);
+    }
+    if (argc >= 3) {
+        delay = atoi(argv[2]);
     }
 
     int listenfd, connfd;
@@ -71,6 +75,7 @@ int main(int argc, char **argv) {
         connfd = Accept(listenfd, (struct sockaddr *)&client_addr, &s);
         pid_t pid = Fork();
         if (pid > 0) {
+            sleep(delay);
             Close(connfd);
         } else {
             Close(listenfd);
@@ -94,10 +99,9 @@ int main(int argc, char **argv) {
                     printf("b");
                     error(connfd);
                 }
-                Close(connfd);
-            return 0;
             }
-           
+            Close(connfd);
+            return 0;
         }
     }
     return 0;
