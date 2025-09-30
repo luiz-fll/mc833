@@ -31,7 +31,13 @@ void error(int connfd) {
     Write(connfd, s, strlen(s));
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+
+    int port = 0;
+    if (argc >= 2) {
+        port = atoi(argv[1]);
+    }
+
     int listenfd, connfd;
     struct sockaddr_in servaddr;
 
@@ -40,7 +46,7 @@ int main(void) {
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family      = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK); 
-    servaddr.sin_port        = htons(0); // MODIFICACAO: Automatizar escolha de portas
+    servaddr.sin_port        = htons(port);
 
     Bind(listenfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
     // Descobrir porta real e divulgar em arquivo server.info
