@@ -24,6 +24,8 @@ pid_t Fork(void);
 
 int Close(int fd);
 
+int Connect(int __fd, const struct sockaddr *__addr, socklen_t __len);
+
 ssize_t Read(int fd, void *buf, size_t nbytes);
 
 ssize_t Write(int fd, const void *buf, size_t n);

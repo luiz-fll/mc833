@@ -65,6 +65,14 @@ int Close(int fd) {
     return r;
 }
 
+int Connect(int fd, const struct sockaddr *addr, socklen_t len) {
+    int n;
+    if ((n = connect(fd, addr, len))) {
+        perror("connect");
+    }
+    return n;
+}
+
 ssize_t Read(int fd, void *buf, size_t nbytes) {
     int n = read(fd, buf, nbytes);
     if (n < 0) {

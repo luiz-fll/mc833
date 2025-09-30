@@ -23,12 +23,12 @@ void answer(int connfd) {
         "\r\n"
         "<html><head><title>MC833</title</head><body><h1>MC833 TCP"
         "Concorrente </h1></body></html>";
-    Write(connfd, s, sizeof(s));
+    Write(connfd, s, strlen(s));
 }
 
 void error(int connfd) {
-    const char *s = "404 Not Found";
-    Write(connfd, s, sizeof(s));
+    const char *s = "404 Not Found\r\n";
+    Write(connfd, s, strlen(s));
 }
 
 int main(void) {
@@ -75,19 +75,23 @@ int main(void) {
             char *ip_string = inet_ntoa(client_addr.sin_addr);
             request_buf[n] = '\0';
             printf("%s:%u\n%s", ip_string, p, request_buf);
-            if (strncmp(request_buf, "GET / ", 5) != 0) {
+            if (strncmp(request_buf, "GET / ", 6) != 0) {
+                printf("a");
                 error(connfd);
-            }
-            ptr += 5;
-            if (strncmp(ptr, "HTTP/1.0", 8) == 0) {
-                answer(connfd);
-            } else if (strncmp(ptr, "HTTP/1.1", 8) == 0) {
-                answer(connfd);
             } else {
-                error(connfd);
-            }
-            Close(connfd);
+                ptr += 6;
+                if (strncmp(ptr, "HTTP/1.0", 8) == 0) {
+                    answer(connfd);
+                } else if (strncmp(ptr, "HTTP/1.1", 8) == 0) {
+                    answer(connfd);
+                } else {
+                    printf("b");
+                    error(connfd);
+                }
+                Close(connfd);
             return 0;
+            }
+           
         }
     }
     return 0;
