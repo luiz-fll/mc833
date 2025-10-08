@@ -1,0 +1,38 @@
+remoto: 127.0.0.1:6005
+[SERVIDOR] Escutando em 127.0.0.1:6005
+127.0.0.1:54426
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:54434
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:54436
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:54448
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:54456
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:54460
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:54470
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:54472
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:54478
+GET / HTTP/1.0
+Host: teste
+
