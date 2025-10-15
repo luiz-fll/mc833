@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configurações iniciais
-PORT=40200
+PORT=$1
 SLEEP=2
 HOST="127.0.0.1"
 MAX_CLIENTES=10
@@ -15,8 +15,7 @@ printf "%-8s | %-20s | %-20s\n" "Backlog" "Conexões ESTABLISHED" "Conexões Rej
 echo "---------------------------------------------------------------"
 
 for BACKLOG in {0..10}; do
-    PORT=$((PORT + BACKLOG))
-    ./servidor $PORT $BACKLOG $SLEEP > /dev/null &
+    ./servidor $PORT "$BACKLOG" $SLEEP > /dev/null &
     SERVER_PID=$!
 
     sleep 1
@@ -28,7 +27,7 @@ for BACKLOG in {0..10}; do
     #wait
     #kill $SERVER_PID
     # Conta conexões ESTABLISHED com o servidor (filtra pela porta usada)
-    ESTABLISHED=$(ss -ant | grep ":$PORT " | grep ESTAB | wc -l)
+    ESTABLISHED=$(ss -ant | grep ":$PORT " | grep -c ESTAB)
     REJEITADAS=$((MAX_CLIENTES - ESTABLISHED))
 
     # Mostra os resultados
@@ -36,5 +35,5 @@ for BACKLOG in {0..10}; do
     PORT=$((PORT + 1))
     # Pequeno delay entre testes
     sleep 1
-    kill $SERVER_PID
+    kill -s SIGINT $SERVER_PID
 done

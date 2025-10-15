@@ -16,6 +16,8 @@
 #define LISTENQ      10
 #define MAXDATASIZE  256
 
+int listenfd;
+
 void answer(int connfd) {
     const char *s = 
         "HTTP/1.0 200 OK\r\n"
@@ -41,10 +43,15 @@ void sigchld(int signo) {
     }
 }
 
+void die(int signo) {
+    Close(listenfd);
+    exit(0);
+}
+
 int main(int argc, char **argv) {
 
     Signal(SIGCHLD, sigchld);
-
+    Signal(SIGINT, die);
     int port = 0;
     int delay = 0;
     int backlog = LISTENQ;
@@ -58,7 +65,7 @@ int main(int argc, char **argv) {
         delay = atoi(argv[3]);
     }
 
-    int listenfd, connfd;
+    int connfd;
     struct sockaddr_in servaddr;
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);

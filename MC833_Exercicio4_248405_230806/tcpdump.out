@@ -1,0 +1,24 @@
+22:08:13.995879 IP localhost.49888 > localhost.40400: Flags [S], seq 1614804057, win 65495, options [mss 65495,sackOK,TS val 1174253257 ecr 0,nop,wscale 7], length 0
+22:08:13.995929 IP localhost.40400 > localhost.49888: Flags [S.], seq 979066772, ack 1614804058, win 65483, options [mss 65495,sackOK,TS val 1174253246 ecr 1174253257,nop,wscale 7], length 0
+22:08:13.996196 IP localhost.49892 > localhost.40400: Flags [S], seq 2142155069, win 65495, options [mss 65495,sackOK,TS val 1174253257 ecr 0,nop,wscale 7], length 0
+22:08:13.996232 IP localhost.40400 > localhost.49892: Flags [S.], seq 3683206808, ack 2142155070, win 65483, options [mss 65495,sackOK,TS val 1174253246 ecr 1174253257,nop,wscale 7], length 0
+22:08:13.996304 IP localhost.49908 > localhost.40400: Flags [S], seq 2941934410, win 65495, options [mss 65495,sackOK,TS val 1174253258 ecr 0,nop,wscale 7], length 0
+22:08:13.996466 IP localhost.49922 > localhost.40400: Flags [S], seq 570766940, win 65495, options [mss 65495,sackOK,TS val 1174253258 ecr 0,nop,wscale 7], length 0
+22:08:13.996499 IP localhost.40400 > localhost.49922: Flags [S.], seq 1534414089, ack 570766941, win 65483, options [mss 65495,sackOK,TS val 1174253246 ecr 1174253258,nop,wscale 7], length 0
+22:08:13.997199 IP localhost.49932 > localhost.40400: Flags [S], seq 1731994668, win 65495, options [mss 65495,sackOK,TS val 1174253258 ecr 0,nop,wscale 7], length 0
+22:08:13.997232 IP localhost.40400 > localhost.49932: Flags [S.], seq 2702345326, ack 1731994669, win 65483, options [mss 65495,sackOK,TS val 1174253246 ecr 1174253258,nop,wscale 7], length 0
+22:08:13.997465 IP localhost.49934 > localhost.40400: Flags [S], seq 3384441761, win 65495, options [mss 65495,sackOK,TS val 1174253259 ecr 0,nop,wscale 7], length 0
+22:08:13.997571 IP localhost.49936 > localhost.40400: Flags [S], seq 167157036, win 65495, options [mss 65495,sackOK,TS val 1174253259 ecr 0,nop,wscale 7], length 0
+22:08:13.997604 IP localhost.40400 > localhost.49936: Flags [S.], seq 2356675567, ack 167157037, win 65483, options [mss 65495,sackOK,TS val 1174253246 ecr 1174253259,nop,wscale 7], length 0
+22:08:13.997772 IP localhost.49946 > localhost.40400: Flags [S], seq 13233268, win 65495, options [mss 65495,sackOK,TS val 1174253259 ecr 0,nop,wscale 7], length 0
+22:08:13.998264 IP localhost.49960 > localhost.40400: Flags [S], seq 2231494552, win 65495, options [mss 65495,sackOK,TS val 1174253260 ecr 0,nop,wscale 7], length 0
+22:08:13.998291 IP localhost.40400 > localhost.49960: Flags [S.], seq 3188959230, ack 2231494553, win 65483, options [mss 65495,sackOK,TS val 1174253246 ecr 1174253260,nop,wscale 7], length 0
+22:08:13.998463 IP localhost.49970 > localhost.40400: Flags [S], seq 57910115, win 65495, options [mss 65495,sackOK,TS val 1174253260 ecr 0,nop,wscale 7], length 0
+22:08:13.998489 IP localhost.40400 > localhost.49970: Flags [S.], seq 2588584325, ack 57910116, win 65483, options [mss 65495,sackOK,TS val 1174253246 ecr 1174253260,nop,wscale 7], length 0
+22:08:15.055251 IP localhost.49934 > localhost.40400: Flags [S], seq 3384441761, win 65495, options [mss 65495,sackOK,TS val 1174254317 ecr 0,nop,wscale 7], length 0
+22:08:15.055286 IP localhost.49908 > localhost.40400: Flags [S], seq 2941934410, win 65495, options [mss 65495,sackOK,TS val 1174254317 ecr 0,nop,wscale 7], length 0
+22:08:15.055302 IP localhost.49946 > localhost.40400: Flags [S], seq 13233268, win 65495, options [mss 65495,sackOK,TS val 1174254317 ecr 0,nop,wscale 7], length 0
+22:08:15.055317 IP localhost.40400 > localhost.49934: Flags [S.], seq 295181729, ack 3384441762, win 65483, options [mss 65495,sackOK,TS val 1174254270 ecr 1174254317,nop,wscale 7], length 0
+22:08:15.055327 IP localhost.40400 > localhost.49908: Flags [S.], seq 4267010231, ack 2941934411, win 65483, options [mss 65495,sackOK,TS val 1174254270 ecr 1174254317,nop,wscale 7], length 0
+22:08:15.055354 IP localhost.40400 > localhost.49946: Flags [S.], seq 2840966054, ack 13233269, win 65483, options [mss 65495,sackOK,TS val 1174254270 ecr 1174254317,nop,wscale 7], length 0
+

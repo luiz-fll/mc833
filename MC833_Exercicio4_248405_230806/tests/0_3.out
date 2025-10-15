@@ -1,7 +1,0 @@
-HTTP/1.0 200 OK
-Content-Type: text/html
-Content-Length: 91
-Connection: close
-
-<html><head><title>MC833</title</head><body><h1>MC833 TCPConcorrente </h1></body></html>local: 127.0.0.1:33362
-remoto: 127.0.0.1:50000
