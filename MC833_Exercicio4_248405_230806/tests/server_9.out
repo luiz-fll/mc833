@@ -1,38 +1,42 @@
-remoto: 127.0.0.1:60009
-[SERVIDOR] Escutando em 127.0.0.1:60009
-127.0.0.1:51374
+remoto: 127.0.0.1:50009
+[SERVIDOR] Escutando em 127.0.0.1:50009
+127.0.0.1:40520
 GET / HTTP/1.0
 Host: teste
 
-127.0.0.1:51376
+127.0.0.1:40534
 GET / HTTP/1.0
 Host: teste
 
-127.0.0.1:51384
+127.0.0.1:40538
 GET / HTTP/1.0
 Host: teste
 
-127.0.0.1:51388
+127.0.0.1:40546
 GET / HTTP/1.0
 Host: teste
 
-127.0.0.1:51400
+127.0.0.1:40548
 GET / HTTP/1.0
 Host: teste
 
-127.0.0.1:51404
+127.0.0.1:40564
 GET / HTTP/1.0
 Host: teste
 
-127.0.0.1:51420
+127.0.0.1:40576
 GET / HTTP/1.0
 Host: teste
 
-127.0.0.1:51430
+127.0.0.1:40588
 GET / HTTP/1.0
 Host: teste
 
-127.0.0.1:51444
+127.0.0.1:40596
+GET / HTTP/1.0
+Host: teste
+
+127.0.0.1:40604
 GET / HTTP/1.0
 Host: teste
 
