@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <wait.h>
 
 #include "utils.h"
@@ -48,34 +49,6 @@ void die(int signo) {
     exit(0);
 }
 
-void init_fdsets(Fdsets *fdsets) {
-    FD_ZERO(fdsets->readfds);
-    FD_ZERO(fdsets->writefds);
-    FD_ZERO(fdsets->exceptfds);
-    fdsets->maxfd = 0;
-}
-
-void set_readfd(int fd, Fdsets *sets) {
-    FD_SET(fd, sets->readfds);
-    if (fd > sets->maxfd) {
-        sets->maxfd = fd;
-    }
-}
-
-void set_writefd(int fd, Fdsets *sets) {
-    FD_SET(fd, sets->writefds);
-    if (fd > sets->maxfd) {
-        sets->maxfd = fd;
-    }
-}
-
-void set_exceptfd(int fd, Fdsets *sets) {
-    FD_SET(fd, sets->exceptfds);
-    if (fd > sets->maxfd) {
-        sets->maxfd = fd;
-    }
-}
-
 int main(int argc, char **argv) {
 
     Signal(SIGCHLD, sigchld);
@@ -95,7 +68,7 @@ int main(int argc, char **argv) {
 
     struct sockaddr_in servaddr;
 
-    int listenfd = Socket(AF_INET, SOCK_STREAM, 0);
+    listenfd = Socket(AF_INET, SOCK_STREAM, 0);
     
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family      = AF_INET;
@@ -115,57 +88,79 @@ int main(int argc, char **argv) {
         fflush(stdout);
     }
     // listen
-    printf("z\n");
     Listen(listenfd, backlog);
-    printf("w\n");
-    Fdsets fdsets;
-    printf("a");
-    init_fdsets(&fdsets);
-    printf("b");
-    set_readfd(listenfd, &fdsets);
-    printf("c\n");
+    fd_set readfds, writefds, exceptfds;
+    FD_ZERO(&readfds);
+    FD_ZERO(&writefds);
+    FD_ZERO(&exceptfds);
+    FD_SET(listenfd, &readfds);
+    int nfds = listenfd + 1;
 
-    struct sockaddr_in clients[1024];
+    bool clients[1024];
     // memset(clients, 0, 1024 * sizeof(struct sockaddr_in));
 
     // laço: aceita clientes, envia banner e fecha a conexão do cliente
     for (;;) {
-        int fd = Select(&fdsets, NULL);
-        if (fd == 0) {
-            //timeout
-        } else if (fd == listenfd) {
-            struct sockaddr_in client_addr;
-            socklen_t s = sizeof(client_addr);
-            int connfd = Accept(listenfd, (struct sockaddr *)&client_addr, &s);
-            clients[connfd] = client_addr;
-            set_readfd(connfd, &fdsets);
-            sleep(delay);
-        } else {
-            struct sockaddr_in client_addr = clients[fd];
-            char request_buf[512];
-            char *ptr = request_buf;
-            int n = Read(fd, request_buf, 511);
-            unsigned short p = ntohs(client_addr.sin_port);
-            char *ip_string = inet_ntoa(client_addr.sin_addr);
-            request_buf[n] = '\0';
-            printf("%s:%u\n%s", ip_string, p, request_buf);
-            if (strncmp(request_buf, "GET / ", 6) != 0) {
-                printf("a");
-                error(fd);
-            } else {
-                ptr += 6;
-                if (strncmp(ptr, "HTTP/1.0", 8) == 0) {
-                    answer(fd);
-                } else if (strncmp(ptr, "HTTP/1.1", 8) == 0) {
-                    answer(fd);
-                } else {
-                    printf("b");
-                    error(fd);
+        fd_set rfds = readfds, wfds = writefds, efds = exceptfds;
+        struct timeval tv;
+        tv.tv_sec = 5;
+        tv.tv_usec = 0;
+        int retval = Select(nfds, &rfds, &wfds, &efds, &tv);
+        if (retval == 0) {
+            printf("timeout\n");
+        } else if (retval > 0) {
+            for (int fd = 0; fd < nfds; fd++) {
+                if (FD_ISSET(fd, &rfds)) {
+                    if (fd == listenfd) {
+                        printf("aaaa\n");
+                        struct sockaddr_in client_addr;
+                        socklen_t s = sizeof(client_addr);
+                        int connfd = Accept(listenfd, (struct sockaddr *)&client_addr, &s);
+                        FD_SET(connfd, &readfds);
+                        if (connfd >= nfds) nfds = connfd + 1;
+                        sleep(delay);
+                    } else {
+                        printf("bbbb\n");
+                        struct sockaddr_in client_addr;
+                        socklen_t client_addr_len = sizeof(client_addr);
+                        if (getpeername(fd, (struct sockaddr *) &client_addr, &client_addr_len) == 0) {
+                        } else {
+                            perror("getpeername");
+                        }
+                        char request_buf[512];
+                        char *ptr = request_buf;
+                        int n = Read(fd, request_buf, 511);
+                        request_buf[n] = '\0';
+                        unsigned short p = ntohs(client_addr.sin_port);
+                        char *ip_string = inet_ntoa(client_addr.sin_addr);
+                        printf("%s:%u\n%s", ip_string, p, request_buf);
+                        if (strncmp(request_buf, "GET / ", 6) != 0) {
+                            printf("a\n");
+                            error(fd);
+                        } else {
+                            ptr += 6;
+                            if (strncmp(ptr, "HTTP/1.0", 8) == 0) {
+                                clients[fd] = true;
+                            } else if (strncmp(ptr, "HTTP/1.1", 8) == 0) {
+                                clients[fd] = true;
+                            } else {
+                                clients[fd] = false;
+                            }
+                        }
+                        FD_SET(fd, &writefds);
+                        FD_CLR(fd, &readfds);
+                    }
+                }
+                if (FD_ISSET(fd, &wfds)) {
+                    if (clients[fd]) {
+                        answer(fd);
+                    } else {
+                        error(fd);
+                    }
+                    FD_CLR(fd, &writefds);
+                    Close(fd);
                 }
             }
-            Close(fd);
-            FD_CLR(fd, fdsets.readfds);
-            memset(clients + fd, 0, sizeof(struct sockaddr_in));
         }
         // struct sockaddr_in client_addr;
         // socklen_t s = sizeof(client_addr);

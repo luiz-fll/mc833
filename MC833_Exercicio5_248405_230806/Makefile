@@ -16,5 +16,5 @@ cliente: cliente.c utils.c
 
 clean:
 	rm -f servidor_select
-	rm -f servidor
+	rm -f servidor_fork
 	rm -f cliente

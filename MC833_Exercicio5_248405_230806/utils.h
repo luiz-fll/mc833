@@ -14,11 +14,6 @@
 #include <errno.h>
 #include <signal.h>
 
-typedef struct Fdsets {
-    int maxfd;
-    fd_set *readfds, *writefds, *exceptfds;
-} Fdsets;
-
 int Socket(int family, int type, int protocol);
 
 int Bind(int fd, const struct sockaddr *addr, socklen_t len);
@@ -39,6 +34,6 @@ ssize_t Write(int fd, const void *buf, size_t n);
 
 __sighandler_t Signal(int sig, __sighandler_t handler);
 
-int Select(Fdsets *fdsets, struct timeval * timeout);
+int Select(int nfds, fd_set *rfds, fd_set *wfds, fd_set *efds, struct timeval *tv);
 
 #endif

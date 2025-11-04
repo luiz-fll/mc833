@@ -100,10 +100,10 @@ __sighandler_t Signal(int sig, __sighandler_t handler) {
     return r;
 }
 
-int Select(Fdsets *fdsets, struct timeval * timeout) {
-    int r = select(fdsets->maxfd, fdsets->readfds, fdsets->writefds, fdsets->exceptfds, timeout);
-    if (r < 0) {
+int Select(int nfds, fd_set *rfds, fd_set *wfds, fd_set *efds, struct timeval *tv) {
+    int retval = select(nfds, rfds, wfds, efds, tv);
+    if (retval == -1) {
         perror("select");
     }
-    return r;
+    return retval;
 }
